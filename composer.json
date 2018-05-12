@@ -1,0 +1,18 @@
+{
+	"name": "tomaskarlik/CsvUtils",
+	"type": "library",
+	"description": "Format array to CSV",
+	"keywords": ["csv", "php"],
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{ "name": "Tomáš Karlík", "homepage": "http://tomaskarlik.cz" }
+	],
+	"require": {
+		"php": "^7.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"TomasKarlik\\CsvUtils\\": "src"
+		}
+	}
+}
