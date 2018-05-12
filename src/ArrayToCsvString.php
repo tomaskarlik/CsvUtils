@@ -30,6 +30,11 @@ class ArrayToCsvString
 	 */
 	private $header = [];
 
+	/**
+	 * @var bool
+	 */
+	private $includeBom = FALSE;
+
 
 	/**
 	 * @param mixed $column
@@ -70,11 +75,22 @@ class ArrayToCsvString
 	}
 
 
+	public function setIncludeBom(bool $includeBom = TRUE): ArrayToCsvString
+	{
+		$this->includeBom = $includeBom;
+		return $this;
+	}
+
+
 	public function convert(array $rows): string
 	{
 		$buffer = fopen('php://temp', 'r+b');
 		if ($buffer === FALSE) {
 			throw new Exception(sprintf('%s: error create buffer!', __CLASS__));
+		}
+
+		if ($this->includeBom) { // utf-8 bom bytes
+			fputs($buffer, $this->getUtf8BomBytes());
 		}
 
 		if (count($this->header)) { // add header
@@ -88,7 +104,7 @@ class ArrayToCsvString
 				}
 				$row[$column] = $callback($row[$column]);
 			}
-			fputcsv($buffer, $row, $this->glue);
+			fputcsv($buffer, (array) $row, $this->glue);
 		}
 
 		rewind($buffer);
@@ -96,6 +112,12 @@ class ArrayToCsvString
 		fclose($buffer);
 
 		return $data;
+	}
+
+
+	private function getUtf8BomBytes(): string
+	{
+		return chr(239) . chr(187) . chr(191);
 	}
 
 }
