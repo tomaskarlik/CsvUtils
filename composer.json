@@ -1,5 +1,5 @@
 {
-	"name": "tomaskarlik/CsvUtils",
+	"name": "tomaskarlik/csvutils",
 	"type": "library",
 	"description": "Format array to CSV",
 	"keywords": ["csv", "php"],
